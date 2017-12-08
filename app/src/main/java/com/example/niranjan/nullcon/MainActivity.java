@@ -1,6 +1,7 @@
 package com.example.niranjan.nullcon;
 
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,8 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    SponsorUsFragment sponsorUsFragment;
+    FragmentManager manager;
+    FragmentTransaction fragmentTransaction;
+    int back_count = 0, back_toast_counter = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });*/
 
+        //added to git 05/12/2017
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -46,7 +55,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            back_count++;
+            back_toast_counter--;
             super.onBackPressed();
+            if (back_count > 0 && back_toast_counter == 0) {
+                Toast.makeText(this,"Press back again to exit",Toast.LENGTH_SHORT).show();
+                super.onBackPressed();
+            }
         }
     }
 
@@ -83,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_home) {
 
+            manager.beginTransaction().remove(sponsorUsFragment).commit();
+
         } else if (id == R.id.nav_goa) {
 
         } else if (id == R.id.nav_register) {
@@ -93,9 +110,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_sponsor_us) {
 
-            SponsorUsFragment SponsorUsFragment =new SponsorUsFragment();
-            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.fragment_layout1,SponsorUsFragment).commit();
+            sponsorUsFragment =new SponsorUsFragment();
+            manager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = manager.beginTransaction();
+            fragmentTransaction.add(R.id.RL_content_main,sponsorUsFragment).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_press);
 
