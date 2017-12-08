@@ -11,7 +11,7 @@
             android:id="@+id/nav_goa"
             android:title="Goa '18"/>
         <item
-            android:id="@+id/nav_register"
+            android:id="@+id/nav_interested"
             android:title="I'm interested" />
         <item
             android:id="@+id/nav_sponsors"

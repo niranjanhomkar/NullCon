@@ -1,6 +1,7 @@
 package com.example.niranjan.nullcon;
 
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,9 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.Intent;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    SponsorUsFragment sponsorUsFragment;
+    Goa18Fragment goa18Fragment;
+    FragmentManager manager;
+    FragmentTransaction fragmentTransaction;
+    int back_count = 0, back_toast_counter = 1, backstack_counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setAction("Action", null).show();
             }
         });*/
+
+        //added to git 05/12/2017
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -76,16 +85,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        Intent start_sponsor_us = new Intent("com.example.niranjan.nullcon.SPONSORUS");
-
-
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
 
         } else if (id == R.id.nav_goa) {
 
-        } else if (id == R.id.nav_register) {
+            goa18Fragment = new Goa18Fragment();
+            manager = getFragmentManager();
+            fragmentTransaction = manager.beginTransaction();
+            fragmentTransaction.replace(R.id.RL_content_main,goa18Fragment,"Goa18").addToBackStack(null).commit();
+            backstack_counter++;
+
+        } else if (id == R.id.nav_interested) {
 
         } else if (id == R.id.nav_sponsors) {
 
@@ -93,9 +105,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_sponsor_us) {
 
-            SponsorUsFragment SponsorUsFragment =new SponsorUsFragment();
-            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.fragment_layout1,SponsorUsFragment).commit();
+            sponsorUsFragment =new SponsorUsFragment();
+            manager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = manager.beginTransaction();
+            fragmentTransaction.replace(R.id.RL_content_main,sponsorUsFragment,"SponsorUs").addToBackStack(null).commit();
+            backstack_counter++;
+
 
         } else if (id == R.id.nav_press);
 
